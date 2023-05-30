@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,7 +21,9 @@ namespace CourseWorkC_
         public double HoursWorked { get { return hoursWorked; } set { hoursWorked = value; } }
         public double SalaryPerHour { get { return salaryPerHour; } set { salaryPerHour = value; } }
 
-        public Coworker(string surname, string name, string middleName, DateTime birthDate, string gender,
+        public Coworker() { }
+
+        public Coworker(string surname, string name, string middleName, string birthDate, string gender,
         int tableNumber, double salary, double experience, double hoursWorked, double salaryPerHour)
             : base(surname, name, middleName, birthDate, gender)
         {
@@ -59,5 +62,32 @@ namespace CourseWorkC_
             return tableNumber.ToString();
         }
 
+        public new static Coworker FromStreamReader(StreamReader reader)
+        {
+            Coworker coworker = new Coworker();
+            Osoba osoba = Osoba.FromStreamReader(reader);
+            coworker.Surname = osoba.Surname;
+            coworker.Name = osoba.Name;
+            coworker.MiddleName = osoba.MiddleName;
+            coworker.BirthDate = osoba.BirthDate;
+            coworker.Gender = osoba.Gender;
+
+            Console.Write("Табличний номер співробітника: ");
+            coworker.TableNumber = int.Parse(reader.ReadLine());
+
+            Console.Write("Оклад: ");
+            coworker.Salary = double.Parse(reader.ReadLine());
+
+            Console.Write("Досвід роботи: ");
+            coworker.Experience = double.Parse(reader.ReadLine());
+
+            Console.Write("Кількість відпрацьованих годин: ");
+            coworker.HoursWorked = double.Parse(reader.ReadLine());
+
+            Console.Write("Зарплата за годину роботи: ");
+            coworker.SalaryPerHour = double.Parse(reader.ReadLine());
+
+            return coworker;
+        }
     }
 }
