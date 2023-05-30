@@ -23,7 +23,7 @@ namespace CourseWorkC_
 
         public Osoba() { }
 
-        public Osoba(string surname, string name, string middleName, DateTime birthDate)
+        public Osoba(string surname, string name, string middleName, DateTime birthDate, string gender)
         {
             Surname = surname;
             Name = name;
@@ -40,5 +40,18 @@ namespace CourseWorkC_
             BirthDate = other.BirthDate;
             Gender = other.Gender;
         }
+
+        public virtual void PrintPersonInfo()
+        {
+            string personInfo = $"{Surname} {Name} {MiddleName}\nДата народження: {BirthDate}\nСтать: '{Gender}'";
+            Console.WriteLine(personInfo);
+        }
+
+        // Поліморфічний кластер
+        public virtual string GetPersonData()
+        {
+            return surname;
+        }
+
     }
 }
