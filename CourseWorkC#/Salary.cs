@@ -1,68 +1,49 @@
-﻿using System;
+﻿using CourseWorkC_;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace CourseWorkC_
+public class Salary : IEnumerable<Coworker>
 {
-    public class Salary
+    private List<Coworker> coworkersListInfo;
+
+    public Salary(int size)
     {
+        coworkersListInfo = new List<Coworker>(size);
+    }
 
-        private Coworker[] coworkersListInfo;
-        private int amountOfCoworkers;
+    public void AddCoworkerToList(Coworker coworker)
+    {
+        coworkersListInfo.Add(coworker);
+    }
 
-        public Coworker[] CoworkersListInfo { get; private set; }
+    public double CalculateSalary(Coworker coworker)
+    {
+        double salary = coworker.Salary + (coworker.HoursWorked * coworker.SalaryPerHour);
+        // Розрахунок зарплати для конкретного співробітника
 
-        public int AmountOfCoworkers { get { return amountOfCoworkers; } set { amountOfCoworkers = value; } }
+        return salary;
+    }
 
-
-        public Salary(int size)
+    public string PrintCoworkersInfo()
+    {
+        string result = "";
+        foreach (var coworker in coworkersListInfo)
         {
-            amountOfCoworkers = 0;
-            coworkersListInfo = new Coworker[size];
+            double salary = coworker.Salary;
+            string salaryString = salary.ToString("F2"); // Форматуємо до двох знаків після коми
+            result += $"Заробітна плата працівника з табельним номером {coworker.TableNumber} складає {salaryString}\n";
         }
 
-        public void addCoworkerToList(Coworker coworker)
-        {
-            coworkersListInfo[amountOfCoworkers] = coworker;
-            amountOfCoworkers++;
-        }
+        return result;
+    }
 
-        public double CalculateSalary(Coworker coworker)
-        {
-            double totalSalary = coworker.Salary + (coworker.HoursWorked * coworker.SalaryPerHour);
-            return totalSalary;
-        }
+    public IEnumerator<Coworker> GetEnumerator()
+    {
+        return coworkersListInfo.GetEnumerator();
+    }
 
-        public string PrintCoworkersInfo()
-        {
-            string result = "";
-            for (int i = 0; i < amountOfCoworkers; i++)
-            {
-                double salary = coworkersListInfo[i].Salary;
-                string salaryString = salary.ToString("F2");
-                result += $"Заробітна плата працівника з табельним номером {coworkersListInfo[i].TableNumber} складає {salaryString}\n";
-            }
-
-            return result;
-        }
-
-        public Coworker GetCoworkerAtIndex(int index)
-        {
-            if (index >= 0 && index < amountOfCoworkers)
-            {
-                return coworkersListInfo[index];
-            }
-            else
-            {
-                throw new IndexOutOfRangeException("Invalid index");
-            }
-        }
-
-        public CustomIterator<Coworker> GetIterator()
-        {
-            return new CustomIterator<Coworker>(coworkersListInfo, 0, amountOfCoworkers);
-        }
+    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
     }
 }

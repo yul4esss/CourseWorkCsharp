@@ -8,21 +8,36 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace CourseWorkC_
 {
     public partial class Form1 : Form
     {
 
-        private Salary salaryList;
+        private List<Coworker> coworkersList;
+
+        private Salary salaryCalculator;
 
         public Form1()
         {
             InitializeComponent();
 
-            salaryList = new Salary(10);
+            comboBox.Items.Add("Ж");
+            comboBox.Items.Add("Ч");
+            comboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+
+            coworkersList = new List<Coworker>();
 
             addObjectsToList();
+
+            salaryCalculator = new Salary(coworkersList.Count);
+            foreach (var coworker in coworkersList)
+            {
+                salaryCalculator.AddCoworkerToList(coworker);
+            }
+
+            dataGridView1.CellEndEdit += dataGridView1_CellEndEdit;
 
 
             dataGridView1.ColumnCount = 10;
@@ -51,12 +66,14 @@ namespace CourseWorkC_
             dataGridView1.Columns[9].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dataGridView1.Columns["Зарплата"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
-            for (int i = 0; i < salaryList.AmountOfCoworkers; i++)
+            for (int i = 0; i < coworkersList.Count; i++)
             {
-                Coworker coworker = salaryList.GetCoworkerAtIndex(i);
-                dataGridView1.Rows.Add(coworker.TableNumber, coworker.Surname, coworker.Name, coworker.MiddleName, coworker.BirthDate,coworker.Gender, coworker.Salary, coworker.Experience, coworker.HoursWorked, coworker.SalaryPerHour);
+                Coworker coworker = coworkersList[i];
+                dataGridView1.Rows.Add(coworker.TableNumber, coworker.Surname, coworker.Name, coworker.MiddleName, coworker.BirthDate, coworker.Gender, coworker.Salary, coworker.Experience, coworker.HoursWorked, coworker.SalaryPerHour);
             }
         }
+
+
 
         private void addObjectsToList()
         {
@@ -71,7 +88,7 @@ namespace CourseWorkC_
             coworker1.Experience = 10;
             coworker1.HoursWorked = 124;
             coworker1.SalaryPerHour = 230;
-            salaryList.addCoworkerToList(coworker1);
+            coworkersList.Add(coworker1);
 
             Coworker coworker2 = new Coworker();
             coworker2.Surname = "Кларк";
@@ -84,7 +101,7 @@ namespace CourseWorkC_
             coworker2.Experience = 8;
             coworker2.HoursWorked = 131;
             coworker2.SalaryPerHour = 300;
-            salaryList.addCoworkerToList(coworker2);
+            coworkersList.Add(coworker2);
         }
 
         private void showListbtn_Click(object sender, EventArgs e)
@@ -103,74 +120,53 @@ namespace CourseWorkC_
 
         private void addCoworkerbtn_Click(object sender, EventArgs e)
         {
-            Coworker coworker = new Coworker();
-
-            coworker.Surname = txtSurname.Text;
-            coworker.Name = txtName.Text;
-            coworker.MiddleName = txtMiddleName.Text;
-            coworker.BirthDate = txtBirthDate.Text;
-            coworker.Gender = txtGender.Text;
-
-            if (!ValidateName(coworker.Surname) || !ValidateName(coworker.Name) || !ValidateName(coworker.MiddleName))
+            try
             {
-                MessageBox.Show("Invalid name format. Names should not contain numbers.");
-                return;
-            }
+                Coworker coworker = new Coworker();
 
-            if (!ValidateDateFormat(coworker.BirthDate))
+                coworker.Surname = string.IsNullOrEmpty(txtSurname.Text) ? string.Empty : txtSurname.Text;
+                coworker.Name = string.IsNullOrEmpty(txtName.Text) ? string.Empty : txtName.Text;
+                coworker.MiddleName = string.IsNullOrEmpty(txtMiddleName.Text) ? string.Empty : txtMiddleName.Text;
+                coworker.BirthDate = string.IsNullOrEmpty(txtBirthDate.Text) ? string.Empty : txtBirthDate.Text;
+                coworker.Gender = comboBox.SelectedItem as string;
+
+                if (!ValidateName(coworker.Surname) || !ValidateName(coworker.Name) || !ValidateName(coworker.MiddleName))
+                {
+                    throw new CustomException("Invalid name format. Names should not contain numbers.");
+                }
+
+                if (!string.IsNullOrEmpty(txtBirthDate.Text))
+                {
+                    if (!ValidateDateFormat(txtBirthDate.Text))
+                    {
+                        throw new CustomException("Invalid date format. Please enter the date in the format 'dd.MM.yyyy'.");
+                    }
+                    coworker.BirthDate = txtBirthDate.Text;
+                }
+
+                coworker.TableNumber = ParseIntValue(txtTableNumber.Text, "TableNumber");
+                coworker.Salary = ParseDoubleValue(txtSalary.Text, "Salary");
+                coworker.Experience = ParseDoubleValue(txtExperience.Text, "Experience");
+                coworker.HoursWorked = ParseDoubleValue(txtHoursWorked.Text, "HoursWorked");
+                coworker.SalaryPerHour = ParseDoubleValue(txtSalaryPerHour.Text, "SalaryPerHour");
+
+                if (coworker.TableNumber < 0 || coworker.Salary < 0 || coworker.Experience < 0 || coworker.HoursWorked < 0 || coworker.SalaryPerHour < 0)
+                {
+                    throw new CustomException("Invalid input. Numbers should not be negative.");
+                }
+
+                if (coworkersList.Any(c => c.TableNumber == coworker.TableNumber))
+                {
+                    throw new CustomException("This table number already exists. Please enter a unique table number.");
+                }
+
+                dataGridView1.Rows.Add(coworker.TableNumber, coworker.Surname, coworker.Name, coworker.MiddleName, coworker.BirthDate, coworker.Gender, coworker.Salary, coworker.Experience, coworker.HoursWorked, coworker.SalaryPerHour);
+                coworkersList.Add(coworker);
+            }
+            catch (CustomException ex)
             {
-                MessageBox.Show("Invalid birth date format. Please enter the date in the format 'dd.MM.yyyy'.");
-                return;
+                MessageBox.Show(ex.Message, "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            if (!ValidateGender(coworker.Gender))
-            {
-                MessageBox.Show("Invalid gender. Gender should be 'Ч' or 'Ж'.");
-                return;
-            }
-
-            int tableNumber;
-            if (!int.TryParse(txtTableNumber.Text, out tableNumber))
-            {
-                MessageBox.Show("Invalid table number. Please enter a valid integer.");
-                return;
-            }
-            coworker.TableNumber = tableNumber;
-
-            double salary;
-            if (!double.TryParse(txtSalary.Text, out salary))
-            {
-                MessageBox.Show("Invalid salary format. Please enter a valid number.");
-                return;
-            }
-            coworker.Salary = salary;
-
-            double experience;
-            if (!double.TryParse(txtExperience.Text, out experience))
-            {
-                MessageBox.Show("Invalid experience format. Please enter a valid number.");
-                return;
-            }
-            coworker.Experience = experience;
-
-            double hoursWorked;
-            if (!double.TryParse(txtHoursWorked.Text, out hoursWorked))
-            {
-                MessageBox.Show("Invalid hours worked format. Please enter a valid number.");
-                return;
-            }
-            coworker.HoursWorked = hoursWorked;
-
-            double salaryPerHour;
-            if (!double.TryParse(txtSalaryPerHour.Text, out salaryPerHour))
-            {
-                MessageBox.Show("Invalid salary per hour format. Please enter a valid number.");
-                return;
-            }
-            coworker.SalaryPerHour = salaryPerHour;
-
-            salaryList.addCoworkerToList(coworker);
-            dataGridView1.Rows.Add(coworker.TableNumber, coworker.Surname, coworker.Name, coworker.MiddleName, coworker.BirthDate, coworker.Gender, coworker.Salary, coworker.Experience, coworker.HoursWorked, coworker.SalaryPerHour);
         }
 
         private bool ValidateDateFormat(string date)
@@ -216,33 +212,178 @@ namespace CourseWorkC_
 
         private void countSalarybtn_Click(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow row in dataGridView1.Rows)
+            foreach (var coworker in coworkersList)
             {
-                if (row.Index != dataGridView1.NewRowIndex)
+                double salary = salaryCalculator.CalculateSalary(coworker);
+                string salaryString = salary.ToString("F2");
+                dataGridView1.Rows[coworkersList.IndexOf(coworker)].Cells["Зарплата"].Value = salaryString;
+            }
+        }
+
+        private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            int rowIndex = e.RowIndex;
+            int columnIndex = e.ColumnIndex;
+
+            if (rowIndex >= 0 && rowIndex < dataGridView1.Rows.Count &&
+                columnIndex >= 0 && columnIndex < dataGridView1.Columns.Count)
+            {
+                string columnName = dataGridView1.Columns[columnIndex].Name;
+                string cellValue = dataGridView1.Rows[rowIndex].Cells[columnIndex].Value.ToString();
+
+                if (columnName == "Оклад" || columnName == "Стаж роботи" || columnName == "К-сть відпрацьованих годин" || columnName == "ЗП/год")
                 {
-                    int index = row.Index; // Get the index of the row
-                    Coworker coworker = salaryList.GetCoworkerAtIndex(index);
-
-                    double totalSalary = salaryList.CalculateSalary(coworker);
-
-                    row.Cells["Зарплата"].Value = totalSalary.ToString();
+                    if (double.TryParse(cellValue, out double numericValue))
+                    {
+                        if (numericValue >= 0)
+                        {
+                            if (columnName == "Оклад")
+                            {
+                                coworkersList[rowIndex].Salary = numericValue;
+                            }
+                            else if (columnName == "Стаж роботи")
+                            {
+                                coworkersList[rowIndex].Experience = numericValue;
+                            }
+                            else if (columnName == "К-сть відпрацьованих годин")
+                            {
+                                coworkersList[rowIndex].HoursWorked = numericValue;
+                            }
+                            else if (columnName == "ЗП/год")
+                            {
+                                coworkersList[rowIndex].SalaryPerHour = numericValue;
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Invalid input. Numbers should not be negative.");
+                            dataGridView1.Rows[rowIndex].Cells[columnIndex].Value = GetOriginalValue(columnName, coworkersList[rowIndex]);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invalid input format. Please enter a valid number.");
+                        dataGridView1.Rows[rowIndex].Cells[columnIndex].Value = GetOriginalValue(columnName, coworkersList[rowIndex]);
+                    }
                 }
+                else if (columnName == "Прізвище")
+                {
+                    if (ValidateName(cellValue))
+                    {
+                        coworkersList[rowIndex].Surname = cellValue;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invalid surname format. Surname should not contain numbers.");
+                        dataGridView1.Rows[rowIndex].Cells[columnIndex].Value = coworkersList[rowIndex].Surname;
+                    }
+                }
+                else if (columnName == "Ім'я")
+                {
+                    if (ValidateName(cellValue))
+                    {
+                        coworkersList[rowIndex].Name = cellValue;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invalid name format. Name should not contain numbers.");
+                        dataGridView1.Rows[rowIndex].Cells[columnIndex].Value = coworkersList[rowIndex].Name;
+                    }
+                }
+                else if (columnName == "По батькові")
+                {
+                    if (ValidateName(cellValue))
+                    {
+                        coworkersList[rowIndex].MiddleName = cellValue;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invalid middle name format. Middle name should not contain numbers.");
+                        dataGridView1.Rows[rowIndex].Cells[columnIndex].Value = coworkersList[rowIndex].MiddleName;
+                    }
+                }
+                else if (columnName == "Дата народження")
+                {
+                    if (ValidateDateFormat(cellValue))
+                    {
+                        coworkersList[rowIndex].BirthDate = cellValue;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invalid birth date format. Please enter the date in the format 'dd.MM.yyyy'.");
+                        dataGridView1.Rows[rowIndex].Cells[columnIndex].Value = coworkersList[rowIndex].BirthDate;
+                    }
+                }
+                else if (columnName == "Стать")
+                {
+                    if (ValidateGender(cellValue))
+                    {
+                        coworkersList[rowIndex].Gender = cellValue;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invalid gender. Gender should be 'Ч' or 'Ж'.");
+                        dataGridView1.Rows[rowIndex].Cells[columnIndex].Value = coworkersList[rowIndex].Gender;
+                    }
+                }
+                else if (columnName == "Табельний номер")
+                {
+                    if (int.TryParse(cellValue, out int tableNumber))
+                    {
+                        coworkersList[rowIndex].TableNumber = tableNumber;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invalid tableNumber format. Please enter a valid number.");
+                        dataGridView1.Rows[rowIndex].Cells[columnIndex].Value = coworkersList[rowIndex].TableNumber;
+                    }
+                }
+            }
+        }
+
+        private object GetOriginalValue(string columnName, Coworker coworker)
+        {
+            switch (columnName)
+            {
+                case "Прізвище":
+                    return coworker.Surname;
+                case "Ім'я":
+                    return coworker.Name;
+                case "По батькові":
+                    return coworker.MiddleName;
+                case "Дата народження":
+                    return coworker.BirthDate;
+                case "Стать":
+                    return coworker.Gender;
+                case "Табельний номер":
+                    return coworker.TableNumber;
+                case "Оклад":
+                    return coworker.Salary;
+                case "Стаж роботи":
+                    return coworker.Experience;
+                case "К-сть відпрацьованих годин":
+                    return coworker.HoursWorked;
+                case "ЗП/год":
+                    return coworker.SalaryPerHour;
+                default:
+                    return null;
             }
         }
 
         private void clearListbtn_Click(object sender, EventArgs e)
         {
-            if (salaryList != null)
-            {
-                // Reset the amountOfCoworkers variable to 0
-                salaryList.AmountOfCoworkers = 0;
-
-                // Clear the CoworkersListInfo array
-                Array.Clear(salaryList.CoworkersListInfo, 0, salaryList.CoworkersListInfo.Length);
-            }
-
-            // Clear the DataGridView
+            coworkersList.Clear();
             dataGridView1.Rows.Clear();
         }
+
+        private void txtSalary_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '.')
+            {
+                // Заміна крапки на кому
+                e.KeyChar = ',';
+            }
+        }
+
     }
 }

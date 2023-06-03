@@ -47,7 +47,6 @@
             this.txtName = new System.Windows.Forms.TextBox();
             this.txtMiddleName = new System.Windows.Forms.TextBox();
             this.txtBirthDate = new System.Windows.Forms.TextBox();
-            this.txtGender = new System.Windows.Forms.TextBox();
             this.txtTableNumber = new System.Windows.Forms.TextBox();
             this.txtSalary = new System.Windows.Forms.TextBox();
             this.txtExperience = new System.Windows.Forms.TextBox();
@@ -57,6 +56,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
+            this.comboBox = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -73,6 +73,8 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.BackgroundColor = System.Drawing.Color.DarkSeaGreen;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(583, 69);
@@ -255,14 +257,6 @@
             this.txtBirthDate.Size = new System.Drawing.Size(134, 20);
             this.txtBirthDate.TabIndex = 18;
             // 
-            // txtGender
-            // 
-            this.txtGender.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.txtGender.Location = new System.Drawing.Point(256, 227);
-            this.txtGender.Name = "txtGender";
-            this.txtGender.Size = new System.Drawing.Size(134, 20);
-            this.txtGender.TabIndex = 19;
-            // 
             // txtTableNumber
             // 
             this.txtTableNumber.BackColor = System.Drawing.SystemColors.ActiveBorder;
@@ -278,6 +272,7 @@
             this.txtSalary.Name = "txtSalary";
             this.txtSalary.Size = new System.Drawing.Size(134, 20);
             this.txtSalary.TabIndex = 21;
+            this.txtSalary.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSalary_KeyPress);
             // 
             // txtExperience
             // 
@@ -347,18 +342,27 @@
             this.button4.UseVisualStyleBackColor = false;
             this.button4.Click += new System.EventHandler(this.clearListbtn_Click);
             // 
+            // comboBox
+            // 
+            this.comboBox.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.comboBox.FormattingEnabled = true;
+            this.comboBox.Location = new System.Drawing.Point(256, 230);
+            this.comboBox.Name = "comboBox";
+            this.comboBox.Size = new System.Drawing.Size(134, 21);
+            this.comboBox.TabIndex = 25;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Ivory;
             this.ClientSize = new System.Drawing.Size(1472, 635);
+            this.Controls.Add(this.comboBox);
             this.Controls.Add(this.txtSalaryPerHour);
             this.Controls.Add(this.txtHoursWorked);
             this.Controls.Add(this.txtExperience);
             this.Controls.Add(this.txtSalary);
             this.Controls.Add(this.txtTableNumber);
-            this.Controls.Add(this.txtGender);
             this.Controls.Add(this.txtBirthDate);
             this.Controls.Add(this.txtMiddleName);
             this.Controls.Add(this.txtName);
@@ -411,7 +415,6 @@
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.TextBox txtMiddleName;
         private System.Windows.Forms.TextBox txtBirthDate;
-        private System.Windows.Forms.TextBox txtGender;
         private System.Windows.Forms.TextBox txtTableNumber;
         private System.Windows.Forms.TextBox txtSalary;
         private System.Windows.Forms.TextBox txtExperience;
@@ -421,6 +424,7 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.ComboBox comboBox;
     }
 }
 

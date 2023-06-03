@@ -62,6 +62,11 @@ namespace CourseWorkC_
             return tableNumber.ToString();
         }
 
+        public override string ToString()
+        {
+            return $"{base.ToString()}\nТабельний номер: {TableNumber}\nОклад: {Salary}\nСтаж роботи: {Experience}\nКількість відпрацьованих годин: {HoursWorked}\nЗарплата за годину роботи: {SalaryPerHour}";
+        }
+
         public new static Coworker FromStreamReader(StreamReader reader)
         {
             Coworker coworker = new Coworker();
