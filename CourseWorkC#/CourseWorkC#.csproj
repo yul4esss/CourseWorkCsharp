@@ -48,7 +48,6 @@
   <ItemGroup>
     <Compile Include="Coworker.cs" />
     <Compile Include="CustomException.cs" />
-    <Compile Include="CustomIterator.cs" />
     <Compile Include="FindCoworker.cs">
       <SubType>Form</SubType>
     </Compile>

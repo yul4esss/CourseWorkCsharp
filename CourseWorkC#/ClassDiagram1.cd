@@ -1,21 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="CourseWorkC_.Osoba">
-    <Position X="6.5" Y="1.75" Width="1.5" />
+    <Position X="6" Y="1.75" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAACEBAAUgCQAFAAEACAAEAAAAAAAAAA=</HashCode>
       <FileName>Osoba.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CourseWorkC_.Coworker">
-    <Position X="3.75" Y="1.75" Width="1.5" />
+    <Position X="3.25" Y="1.75" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAACAAACAgAIAkAAAAACEAAAABACAAEABAAAAAwAA=</HashCode>
       <FileName>Coworker.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CourseWorkC_.CustomException">
-    <Position X="12.5" Y="2.5" Width="1.5" />
+    <Position X="12.25" Y="2.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
       <FileName>CustomException.cs</FileName>
@@ -31,7 +31,7 @@
   <Class Name="CourseWorkC_.Form1">
     <Position X="16" Y="0.75" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AQIBgQBAASAAUgATmFCEByAiwAgZJgwEAAhBwIABEAQ=</HashCode>
+      <HashCode>AQIBgQBAASAAQgARmFCEByACwAgZJgwEAAhBwIABEAQ=</HashCode>
       <FileName>Form1.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -44,7 +44,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="CourseWorkC_.FindCoworker">
-    <Position X="18.75" Y="2" Width="1.5" />
+    <Position X="18.75" Y="2" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAACAAAhUAAACAAEACIAAAAAAAAAAAABAAAAA=</HashCode>
       <FileName>FindCoworker.cs</FileName>
