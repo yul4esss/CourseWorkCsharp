@@ -14,32 +14,40 @@
       <FileName>Coworker.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CourseWorkC_.Salary">
-    <Position X="8.75" Y="2" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>ABAAAAIEABAAAAAAAAAAAAAAAAAACAAQAAAAABAAIAI=</HashCode>
-      <FileName>Salary.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="CourseWorkC_.CustomException">
-    <Position X="13.25" Y="2.5" Width="1.5" />
+    <Position X="12.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
       <FileName>CustomException.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CourseWorkC_.Program">
-    <Position X="15" Y="3" Width="1.5" />
+    <Position X="14.25" Y="3" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
       <FileName>Program.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CourseWorkC_.Form1">
-    <Position X="17.25" Y="0.75" Width="2.5" />
+    <Position X="16" Y="0.75" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AQABgQAAASAAVgACGECEAwAigGg5JgwEAAhAgIADEAQ=</HashCode>
+      <HashCode>AQIBgQBAASAAUgATmFCEByAiwAgZJgwEAAhBwIABEAQ=</HashCode>
       <FileName>Form1.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Salary">
+    <Position X="8.5" Y="2.25" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AjAAAAAAABAAABAAAAAAAAAAAAAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>Salary.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CourseWorkC_.FindCoworker">
+    <Position X="18.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAhUAAACAAEACIAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>FindCoworker.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

@@ -17,12 +17,14 @@ namespace CourseWorkC_
         private string birthDate;
         private string gender;
 
+        // Властивості
         public string Surname { get { return surname; } set { surname = value; } }
         public string Name { get { return name; } set {  name = value; } }
         public string MiddleName { get { return middleName; } set {  middleName = value; } }
         public string BirthDate { get {  return birthDate; } set {  birthDate = value; } }
         public string Gender { get {  return gender; } set {  gender = value; } }
 
+        // Конструктори
         public Osoba() { }
 
         public Osoba(string surname, string name, string middleName, string birthDate, string gender)
@@ -43,6 +45,7 @@ namespace CourseWorkC_
             Gender = other.Gender;
         }
 
+        // Метод виводу інформації про особу
         public virtual void PrintPersonInfo()
         {
             string personInfo = $"{Surname} {Name} {MiddleName}\nДата народження: {BirthDate}\nСтать: '{Gender}'";

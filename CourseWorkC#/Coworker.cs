@@ -15,12 +15,14 @@ namespace CourseWorkC_
         private double hoursWorked;
         private double salaryPerHour;
 
+        // Властивості
         public int TableNumber { get { return tableNumber; } set { tableNumber = value; } }
         public double Salary { get { return salary; } set { salary = value; } }
         public double Experience { get { return experience; } set { experience = value; } }
         public double HoursWorked { get { return hoursWorked; } set { hoursWorked = value; } }
         public double SalaryPerHour { get { return salaryPerHour; } set { salaryPerHour = value; } }
 
+        // Конструктори
         public Coworker() { }
 
         public Coworker(string surname, string name, string middleName, string birthDate, string gender,
@@ -44,6 +46,8 @@ namespace CourseWorkC_
             salaryPerHour = other.SalaryPerHour;
         }
 
+
+        // Метод виводу інформації про співробітника
         public override void PrintPersonInfo()
         {
             // Виклик базового методу PrintPersonInfo() для виведення інформації про особу
@@ -57,11 +61,13 @@ namespace CourseWorkC_
                               $"Зарплата за годину: {SalaryPerHour}");
         }
 
+        // Поліморфічний кластер
         public override string GetPersonData()
         {
             return tableNumber.ToString();
         }
 
+        // Перегрузка операторів вводу та виводу
         public override string ToString()
         {
             return $"{base.ToString()}\nТабельний номер: {TableNumber}\nОклад: {Salary}\nСтаж роботи: {Experience}\nКількість відпрацьованих годин: {HoursWorked}\nЗарплата за годину роботи: {SalaryPerHour}";
